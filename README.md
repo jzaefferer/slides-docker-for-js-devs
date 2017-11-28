@@ -13,7 +13,7 @@ Adopted from [Google's IO 2012 slides](https://code.google.com/p/io-2012-slides/
 
 To regenerate CSS files, use
 
-    compass compile
+    docker run -ti -v `pwd`:/srv marmelab/compass watch
 
 Open `index.html` from filesystem or local server.
 
