@@ -197,13 +197,13 @@ slide.fill img {
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 400;
-  src: local("Open Sans Italic"), local("OpenSans-Italic"), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBrrIa-7acMAeDBVuclsi6Gc.woff) format("woff");
+  src: local("Open Sans Italic"), local("OpenSans-Italic"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBrrIa-7acMAeDBVuclsi6Gc.woff) format("woff");
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 600;
-  src: local("Open Sans Semibold Italic"), local("OpenSans-SemiboldItalic"), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxuw_rQOTGi-AJs5XCWaKIhU.woff) format("woff");
+  src: local("Open Sans Semibold Italic"), local("OpenSans-SemiboldItalic"), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxuw_rQOTGi-AJs5XCWaKIhU.woff) format("woff");
 }
 @font-face {
   font-family: 'Source Code Pro';
@@ -1143,15 +1143,6 @@ article.smaller q:before, article.smaller q:after {
 }
 
 /* line 798, ../scss/default.scss */
-.reflect {
-  -webkit-box-reflect: below 3px -webkit-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
-  -moz-box-reflect: below 3px -moz-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
-  -o-box-reflect: below 3px -o-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
-  -ms-box-reflect: below 3px -ms-linear-gradient(rgba(255, 255, 255, 0) 85%, white 150%);
-  box-reflect: below 3px linear-gradient(rgba(255, 255, 255, 0) 85%, #ffffff 150%);
-}
-
-/* line 806, ../scss/default.scss */
 .flexbox {
   display: -webkit-box !important;
   display: -moz-box !important;
@@ -1160,7 +1151,7 @@ article.smaller q:before, article.smaller q:after {
   display: box !important;
 }
 
-/* line 810, ../scss/default.scss */
+/* line 802, ../scss/default.scss */
 .flexbox.vcenter {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1178,7 +1169,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 816, ../scss/default.scss */
+/* line 808, ../scss/default.scss */
 .flexbox.vleft {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1196,7 +1187,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 822, ../scss/default.scss */
+/* line 814, ../scss/default.scss */
 .flexbox.vright {
   -webkit-box-orient: vertical;
   -moz-box-orient: vertical;
@@ -1214,7 +1205,7 @@ article.smaller q:before, article.smaller q:after {
   width: 100%;
 }
 
-/* line 828, ../scss/default.scss */
+/* line 820, ../scss/default.scss */
 .auto-fadein {
   -moz-transition: opacity 0.6s ease-in 1s;
   -o-transition: opacity 0.6s ease-in 1s;
@@ -1225,7 +1216,7 @@ article.smaller q:before, article.smaller q:after {
 }
 
 /* Clickable/tappable areas */
-/* line 834, ../scss/default.scss */
+/* line 826, ../scss/default.scss */
 .slide-area {
   z-index: 1000;
   position: absolute;
@@ -1239,47 +1230,47 @@ article.smaller q:before, article.smaller q:after {
   margin-top: -350px;
 }
 
-/* line 849, ../scss/default.scss */
+/* line 841, ../scss/default.scss */
 #prev-slide-area {
   margin-left: -550px;
 }
 
-/* line 852, ../scss/default.scss */
+/* line 844, ../scss/default.scss */
 #next-slide-area {
   margin-left: 450px;
 }
 
 /* ===== SLIDE CONTENT ===== */
-/* line 858, ../scss/default.scss */
+/* line 850, ../scss/default.scss */
 .logoslide img {
   width: 383px;
   height: 92px;
 }
 
-/* line 864, ../scss/default.scss */
+/* line 856, ../scss/default.scss */
 .segue {
   padding: 60px 120px;
 }
-/* line 867, ../scss/default.scss */
+/* line 859, ../scss/default.scss */
 .segue h2 {
   font-size: 56px;
   line-height: 50px;
 }
-/* line 871, ../scss/default.scss */
+/* line 863, ../scss/default.scss */
 .segue h3 {
   margin-top: .7em;
   line-height: 1.5;
 }
-/* line 875, ../scss/default.scss */
+/* line 867, ../scss/default.scss */
 .segue h3 ~ h3 {
   margin-top: 0;
 }
-/* line 878, ../scss/default.scss */
+/* line 870, ../scss/default.scss */
 .segue hgroup {
   margin-top: 60px;
 }
 
-/* line 883, ../scss/default.scss */
+/* line 875, ../scss/default.scss */
 .segue.dark hgroup {
   padding: 48px;
   background: rgba(90, 90, 90, 0.8);
@@ -1287,28 +1278,28 @@ article.smaller q:before, article.smaller q:after {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 886, ../scss/default.scss */
+/* line 878, ../scss/default.scss */
 .segue.dark h2 {
   color: #F5DC43;
   text-shadow: 0px 2px 6px #333;
 }
-/* line 890, ../scss/default.scss */
+/* line 882, ../scss/default.scss */
 .segue.dark h3 {
   color: white;
 }
 
-/* line 895, ../scss/default.scss */
+/* line 887, ../scss/default.scss */
 .big h2 {
   font-size: 92px;
   line-height: 90px;
 }
 
-/* line 901, ../scss/default.scss */
+/* line 893, ../scss/default.scss */
 .wood {
   background: brown url(../../images/wood-texture.jpg) center no-repeat;
   background-size: 100%;
 }
-/* line 904, ../scss/default.scss */
+/* line 896, ../scss/default.scss */
 .wood hgroup {
   padding: 48px;
   background: rgba(90, 90, 90, 0.8);
@@ -1316,22 +1307,22 @@ article.smaller q:before, article.smaller q:after {
   border-top-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-/* line 906, ../scss/default.scss */
+/* line 898, ../scss/default.scss */
 .wood hgroup h2 {
   color: #F5DC43;
   text-shadow: 0px 2px 6px #333;
 }
-/* line 910, ../scss/default.scss */
+/* line 902, ../scss/default.scss */
 .wood hgroup h3 {
   color: white;
 }
 
-/* line 916, ../scss/default.scss */
+/* line 908, ../scss/default.scss */
 .strike {
   text-decoration: line-through;
 }
 
-/* line 920, ../scss/default.scss */
+/* line 912, ../scss/default.scss */
 .thank-you-slide {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -1339,12 +1330,12 @@ article.smaller q:before, article.smaller q:after {
   background: url(../../images/seecontainer-gartenhaus.jpg) center no-repeat !important;
   background-size: 100%;
 }
-/* line 925, ../scss/default.scss */
+/* line 917, ../scss/default.scss */
 .thank-you-slide h2 {
   font-size: 60px;
   color: inherit;
 }
-/* line 930, ../scss/default.scss */
+/* line 922, ../scss/default.scss */
 .thank-you-slide article {
   padding: 48px;
   background: rgba(90, 90, 90, 0.8);
@@ -1359,39 +1350,39 @@ article.smaller q:before, article.smaller q:after {
   transform: translateY(-50%);
   font-size: 120%;
 }
-/* line 936, ../scss/default.scss */
+/* line 928, ../scss/default.scss */
 .thank-you-slide ul > li:before {
   content: '';
 }
-/* line 939, ../scss/default.scss */
+/* line 931, ../scss/default.scss */
 .thank-you-slide ul {
   margin: 0;
   display: table;
 }
-/* line 943, ../scss/default.scss */
+/* line 935, ../scss/default.scss */
 .thank-you-slide li {
   display: table-row;
 }
-/* line 946, ../scss/default.scss */
+/* line 938, ../scss/default.scss */
 .thank-you-slide li > span {
   padding: 0.5em 1em 0.5em 0;
   display: table-cell;
   text-align: right;
   color: white;
 }
-/* line 952, ../scss/default.scss */
+/* line 944, ../scss/default.scss */
 .thank-you-slide li > a {
   display: table-cell;
   text-align: left;
   color: yellow;
 }
 
-/* line 959, ../scss/default.scss */
+/* line 951, ../scss/default.scss */
 .title-slide {
   background: url(../../images/container-ship-sunset.jpg) no-repeat;
   background-size: 100%;
 }
-/* line 964, ../scss/default.scss */
+/* line 956, ../scss/default.scss */
 .title-slide hgroup {
   margin-top: 0;
   position: relative;
@@ -1400,7 +1391,7 @@ article.smaller q:before, article.smaller q:after {
   ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-/* line 966, ../scss/default.scss */
+/* line 958, ../scss/default.scss */
 .title-slide hgroup h1 {
   font-size: 90px;
   line-height: 1.3;
@@ -1408,7 +1399,7 @@ article.smaller q:before, article.smaller q:after {
   color: white;
   text-shadow: 0px 2px 10px #333;
 }
-/* line 974, ../scss/default.scss */
+/* line 966, ../scss/default.scss */
 .title-slide hgroup h2 {
   font-size: 70px;
   line-height: 70px;
@@ -1417,7 +1408,7 @@ article.smaller q:before, article.smaller q:after {
   text-shadow: 0px 2px 6px #333;
   margin-bottom: 1.6em;
 }
-/* line 983, ../scss/default.scss */
+/* line 975, ../scss/default.scss */
 .title-slide hgroup h3 {
   display: inline-block;
   padding: 48px;
@@ -1429,12 +1420,12 @@ article.smaller q:before, article.smaller q:after {
   padding: 10px 24px;
   font-size: 38px;
 }
-/* line 989, ../scss/default.scss */
+/* line 981, ../scss/default.scss */
 .title-slide hgroup h3 a {
   color: white;
   border-bottom: none;
 }
-/* line 996, ../scss/default.scss */
+/* line 988, ../scss/default.scss */
 .title-slide hgroup p {
   font-size: 43px;
   color: #494949;
@@ -1442,12 +1433,12 @@ article.smaller q:before, article.smaller q:after {
   margin-top: 2em;
 }
 
-/* line 1005, ../scss/default.scss */
+/* line 997, ../scss/default.scss */
 .map {
   background: #A5BFDD;
 }
 
-/* line 1009, ../scss/default.scss */
+/* line 1001, ../scss/default.scss */
 .img-overlay {
   text-align: justify;
   -moz-box-sizing: border-box;
@@ -1461,12 +1452,12 @@ article.smaller q:before, article.smaller q:after {
   margin-left: -5px;
   padding: 20px;
 }
-/* line 1019, ../scss/default.scss */
+/* line 1011, ../scss/default.scss */
 .img-overlay h2, .img-overlay h3 {
   color: white;
 }
 
-/* line 1023, ../scss/default.scss */
+/* line 1015, ../scss/default.scss */
 .img-overlay-right {
   left: auto;
   right: 0;
@@ -1474,28 +1465,28 @@ article.smaller q:before, article.smaller q:after {
   margin-right: -5px;
 }
 
-/* line 1031, ../scss/default.scss */
+/* line 1023, ../scss/default.scss */
 cite {
   display: block;
   margin-top: 1em;
 }
 
-/* line 1036, ../scss/default.scss */
+/* line 1028, ../scss/default.scss */
 slide.pattern-1 {
   background-image: url(../../images/container-chaos.jpg) !important;
   background-size: 100% !important;
 }
 
-/* line 1040, ../scss/default.scss */
+/* line 1032, ../scss/default.scss */
 slide.pattern-2 {
   background-image: url(../../images/bg-car-service.jpg) !important;
 }
 
-/* line 1044, ../scss/default.scss */
+/* line 1036, ../scss/default.scss */
 .quote {
   color: white;
 }
-/* line 1047, ../scss/default.scss */
+/* line 1039, ../scss/default.scss */
 .quote .author {
   font-size: 24px;
   position: absolute;
@@ -1503,17 +1494,17 @@ slide.pattern-2 {
   line-height: 1.4;
 }
 
-/* line 1056, ../scss/default.scss */
+/* line 1048, ../scss/default.scss */
 [data-config-contact] span {
   width: 115px;
   display: inline-block;
 }
 
-/* line 1065, ../scss/default.scss */
+/* line 1057, ../scss/default.scss */
 .overview.popup .note {
   display: none !important;
 }
-/* line 1071, ../scss/default.scss */
+/* line 1063, ../scss/default.scss */
 .overview slides slide {
   display: block;
   cursor: pointer;
@@ -1526,26 +1517,26 @@ slide.pattern-2 {
   background: linear-gradient(#ffffff, #ffffff 85%, #e6e6e6);
   background-color: white;
 }
-/* line 1072, ../scss/default.scss */
+/* line 1064, ../scss/default.scss */
 .overview slides slide.backdrop {
   display: none !important;
 }
-/* line 1083, ../scss/default.scss */
+/* line 1075, ../scss/default.scss */
 .overview slides slide.far-past, .overview slides slide.past, .overview slides slide.next, .overview slides slide.far-next, .overview slides slide.far-past {
   opacity: 0.5;
   display: block;
 }
-/* line 1092, ../scss/default.scss */
+/* line 1084, ../scss/default.scss */
 .overview slides slide.current {
   opacity: 1;
 }
-/* line 1098, ../scss/default.scss */
+/* line 1090, ../scss/default.scss */
 .overview .slide-area {
   display: none;
 }
 
 @media print {
-  /* line 1105, ../scss/default.scss */
+  /* line 1097, ../scss/default.scss */
   slides slide {
     display: block !important;
     position: relative;
@@ -1569,55 +1560,46 @@ slide.pattern-2 {
     opacity: 1 !important;
     color: #555;
   }
-  /* line 1120, ../scss/default.scss */
+  /* line 1112, ../scss/default.scss */
   slides slide.far-past, slides slide.past, slides slide.next, slides slide.far-next, slides slide.far-past, slides slide.current {
     opacity: 1 !important;
     display: block !important;
   }
-  /* line 1131, ../scss/default.scss */
+  /* line 1123, ../scss/default.scss */
   slides slide .build > * {
     -moz-transition: none;
     -o-transition: none;
     -webkit-transition: none;
     transition: none;
   }
-  /* line 1135, ../scss/default.scss */
+  /* line 1127, ../scss/default.scss */
   slides slide .build .to-build,
   slides slide .build .build-fade {
     opacity: 1;
   }
-  /* line 1141, ../scss/default.scss */
+  /* line 1133, ../scss/default.scss */
   slides slide .auto-fadein {
     opacity: 1 !important;
   }
-  /* line 1145, ../scss/default.scss */
+  /* line 1137, ../scss/default.scss */
   slides slide.backdrop {
     display: none !important;
   }
-  /* line 1149, ../scss/default.scss */
+  /* line 1141, ../scss/default.scss */
   slides slide table.rows {
     border-right: 0;
   }
-  /* line 1154, ../scss/default.scss */
+  /* line 1146, ../scss/default.scss */
   slides slide[hidden] {
     display: none !important;
   }
 
-  /* line 1159, ../scss/default.scss */
+  /* line 1151, ../scss/default.scss */
   .slide-area {
     display: none;
   }
 
-  /* line 1163, ../scss/default.scss */
-  .reflect {
-    -webkit-box-reflect: none;
-    -moz-box-reflect: none;
-    -o-box-reflect: none;
-    -ms-box-reflect: none;
-    box-reflect: none;
-  }
-
-  /* line 1171, ../scss/default.scss */
+  /* line 1155, ../scss/default.scss */
   pre, code {
     font-family: monospace !important;
   }

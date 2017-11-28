@@ -70,13 +70,13 @@ $article-content-top-padding: 45px;
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 400;
-  src: local('Open Sans Italic'), local('OpenSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBrrIa-7acMAeDBVuclsi6Gc.woff) format('woff');
+  src: local('Open Sans Italic'), local('OpenSans-Italic'), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/xjAJXh38I15wypJXxuGMBrrIa-7acMAeDBVuclsi6Gc.woff) format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 600;
-  src: local('Open Sans Semibold Italic'), local('OpenSans-SemiboldItalic'), url(http://themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxuw_rQOTGi-AJs5XCWaKIhU.woff) format('woff');
+  src: local('Open Sans Semibold Italic'), local('OpenSans-SemiboldItalic'), url(https://themes.googleusercontent.com/static/fonts/opensans/v6/PRmiXeptR36kaC0GEAetxuw_rQOTGi-AJs5XCWaKIhU.woff) format('woff');
 }
 @font-face {
   font-family: 'Source Code Pro';
@@ -795,14 +795,6 @@ article.smaller {
   text-align: center;
 }
 
-.reflect {
-  -webkit-box-reflect: below 3px -webkit-linear-gradient(rgba(255,255,255,0) 85%, white 150%);
-  -moz-box-reflect: below 3px -moz-linear-gradient(rgba(255,255,255,0) 85%, white 150%);
-  -o-box-reflect: below 3px -o-linear-gradient(rgba(255,255,255,0) 85%, white 150%);
-  -ms-box-reflect: below 3px -ms-linear-gradient(rgba(255,255,255,0) 85%, white 150%);
-  box-reflect: below 3px linear-gradient(rgba(255,255,255,0) 85%, white 150%);
-}
-
 .flexbox {
   @include flexbox;
 }
@@ -1158,14 +1150,6 @@ slide.pattern-2 {
 
   .slide-area {
     display: none;
-  }
-
-  .reflect {
-    -webkit-box-reflect: none;
-    -moz-box-reflect: none;
-    -o-box-reflect: none;
-    -ms-box-reflect: none;
-    box-reflect: none;
   }
 
   pre, code {
