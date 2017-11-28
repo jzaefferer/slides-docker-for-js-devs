@@ -175,10 +175,6 @@ slides slide {
     display: none;
   }
 
-  &.dark {
-    background: url(../../images/seecontainer-gartenhaus.jpg) center no-repeat;
-  }
-
   &:not(.nobackground) {
 
     &:after {
