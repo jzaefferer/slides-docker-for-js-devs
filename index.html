@@ -13,7 +13,6 @@
 
 <slides class="layout-widescreen">
 
-  <!-- title -->
   <slide class="title-slide segue nobackground">
     <aside class="note">
       <section>
@@ -49,21 +48,294 @@
     </hgroup>
   </slide>
   <slide class="title-slide segue nobackground">
-      <aside class="note">
-        <section>
-          Hands up if you've worked with Docker!<br>
-          [do an estimate] Alright.<br>
-          Either way, I'm not going to teach you how to use Docker. I am going to show Docker solutions for JavaScript specific issues. They should be understandable even if you don't yet know Docker.
-        </section>
-      </aside>
-      <hgroup>
-        <h1>'bout you</h1>
-        <h3>Have you worked with Docker?</h3>
-      </hgroup>
-    </slide>
+    <aside class="note">
+      <section>
+        Hands up if you've worked with Docker!<br>
+        [do an estimate] Alright.<br>
+        Either way, I'm not going to teach you how to use Docker. I am going to show Docker solutions for JavaScript specific issues. They should be understandable even if you don't yet know Docker.
+      </section>
+    </aside>
+    <hgroup>
+      <h1>'bout you</h1>
+      <h3>Have you worked with Docker?</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="segue big dark pattern-1">
+    <aside class="note">
+      <section>
+        Before we get to the code examples, a bit of theory<br/>
+        If you currently have a setup that works okay, why would you bother with Docker?<br/>
+        Here's a few arguments that might work for you.<br/>
+        node/npm on Windows can have path issues or incompatible binaries, using Docker avoids these<br/>
+        Managing node/npm versions per project is annoying, Docker does that well<br/>
+        Containers open up new options for deployments and operations! Once your app is in a container, it can run in many environments!
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Why Docker?</h2>
+      <h3>
+        <ul>
+          <li>Works on Windows</li>
+          <li>Manage different version like node/npm</li>
+          <li>Deploy to cloud, with less vendor lock-in</li>
+        </ul>
+    </hgroup>
+  </slide>
+
+  <slide class="segue big dark pattern-2">
+    <aside class="note">
+      <section>
+        All the code is in two GitHub repositories!<br/>
+        No need to copy code examples, they're all in there<br/>
+        They're fully functional, can you try them later.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Code on GitHub</h2>
+      <h3>
+        <ul>
+          <li><a href="https://github.com/jzaefferer/docker-for-js-devs">frontend/webpack example</a></li>
+          <li><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">backend/nodejs example</a></li>
+        </ul>
+    </hgroup>
+  </slide>
+
+  <!-- Docker locally -->
+  <slide class="segue big dark pattern-3">
+    <aside class="note">
+      <section>
+        To start, let's look how we can use Docker for local development
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Docker locally</h2>
+    </hgroup>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        6 instructions for conquering the world!<br/>
+        FROM is our starting point, here a light weight build of node 8 based on alpine.<br/>
+        WORKDIR tells Docker where to copy files. Can be pretty much any directory<br/>
+        The first COPY only copies files we need to install dependencies with npm<br/>
+        The RUN then does just that<br/>
+        Afterwards another COPY copies all files. This way we can use Docker's cache for dependencies as long as package.json doesn't change<br/>
+        Finally CMD is the command to run, here starting a server with file watcher
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        FROM node:8-alpine
+
+        WORKDIR /usr/src/app
+
+        `COPY package.json package-lock.json ./`
+        RUN npm install --silent
+
+        COPY . .
+
+        CMD npm start
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        To build and run this locally, we can use docker-compose<br/>
+        In this very simple setup, we specify a single service, built on demand<br/>
+        We specify the port to expose, to open the web app in the browser<br/>
+        And we map files to the host, so that the webpack-dev-server can pick up changes
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-compose.yml</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="yml">
+        version: "3"
+        services:
+          pet-reminder:
+            build: .
+            ports:
+              - 3000:3000
+            volumes:
+              - .:/usr/src/app
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        With these two files, we can now run docker-compose and get something like the following output (page 1)<br/>
+        Here the Docker container is built
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-compose up --build</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        $ docker-compose up --build
+        Building pet-reminder
+        Step 1/6 : FROM node:8-alpine
+          ---> b7e15c83cdaf
+        Step 2/6 : WORKDIR /usr/src/app
+          ---> Using cache
+          ---> f2d4399af6ff
+        Step 3/6 : COPY package.json package-lock.json ./
+          ---> 6382a5ccf1da
+        Step 4/6 : RUN npm install --silent
+          ---> Running in 50e9b8fcaef1
+        added 1298 packages in 79.942s
+          ---> 141da2d062f2
+        Removing intermediate container 50e9b8fcaef1
+        Step 5/6 : COPY . .
+          ---> 61ea82055581
+        Step 6/6 : CMD npm start
+          ---> Running in 6e31c194301c
+          ---> a3e21611b6cb
+        Removing intermediate container 6e31c194301c
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        (page 2) Here the built container is tagged and started
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-compose up --build</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        Successfully tagged dockerforjsdevs_pet-reminder:latest
+        Recreating dockerforjsdevs_pet-reminder_1 ... done
+        Attaching to dockerforjsdevs_pet-reminder_1
+        pet-reminder_1  |
+        pet-reminder_1  | > pet-reminder@0.1.0 start /usr/src/app
+        pet-reminder_1  | > react-scripts start
+        pet-reminder_1  |
+        pet-reminder_1  | Starting the development server...
+        pet-reminder_1  |
+        pet-reminder_1  | Compiled successfully!
+        pet-reminder_1  |
+        pet-reminder_1  | You can now view pet-reminder in the browser.
+        pet-reminder_1  |
+        pet-reminder_1  |   Local:            http://localhost:3000/
+        pet-reminder_1  |   On Your Network:  http://172.18.0.2:3000/
+        pet-reminder_1  |
+        pet-reminder_1  | Note that the development build is not optimized.
+        pet-reminder_1  | To create a production build, use npm run build.
+        pet-reminder_1  |
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        With that we can open the app in the browser, and it automatically reloads as we make changes (using create-react-app)<br/>
+        Let's look at the equivalent files for the nodejs app
+      </section>
+    </aside>
+    <hgroup>
+      <h2>http://localhost:3000/</h2>
+    </hgroup>
+    <article>
+      <iframe src="https://pet-reminder.sloppy.zone/"></iframe>
+    </article>
+  </slide>
+  <!-- nodejs -->
+  <slide>
+    <aside class="note">
+      <section>
+        Dockerfile: Exactly the same!
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile, nodejs</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        FROM node:8-alpine
+
+        WORKDIR /usr/src/app
+
+        `COPY package.json package-lock.json ./`
+        RUN npm install --silent
+
+        COPY . .
+
+        CMD npm start
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        This launches both the nodejs app as well as a couchdb instance<br/>
+        Here we see how docker, via docker-compose, helps us avoid installing binaries locally.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-compose.yml, nodejs</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="yml">
+        version: '3'
+        services:
+          app:
+            build: .
+            volumes:
+              - .:/usr/src/app
+            environment:
+              - PORT=7777
+              - COUCHDB_URL=http://admin:sikrit@`db`:5984
+            ports:
+              - 7777:7777
+          `db:`
+            image: couchdb:1.7.1
+            ports:
+              - 5984:5984
+            environment:
+              - COUCHDB_USER=admin
+              - COUCHDB_PASSWORD=sikrit
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Opening this in the browser gives us a list of pets, as JSON
+      </section>
+    </aside>
+    <hgroup>
+      <h2>http://localhost:7777/v1/pets</h2>
+    </hgroup>
+    <article>
+      <iframe src="https://pet-reminder-api.sloppy.zone/v1/pets"></iframe>
+    </article>
+  </slide>
+
+  <!-- building for production -->
+  <!-- FIXME shitty layout -->
+  <slide class="segue big dark pattern-4">
+    <aside class="note">
+      <section>
+        ...
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Building containers for production</h2>
+    </hgroup>
+  </slide>
 
   <!-- section title -->
-  <slide class="segue big dark pattern-1">
+  <slide class="segue big dark pattern-1" hidden>
     <aside class="note">
       <section>
         [speaker notes]
@@ -76,7 +348,7 @@
   </slide>
 
   <!-- code -->
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         [speaker notes]
@@ -101,7 +373,7 @@
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         [speaker notes]
@@ -125,7 +397,7 @@
   </slide>
 
   <!-- iframe -->
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         [speaker notes]
@@ -140,7 +412,7 @@
   </slide>
 
   <!-- build / slide with list -->
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         [speaker notes]
@@ -160,7 +432,7 @@
   </slide>
 
   <!-- full image, no background -->
-  <slide class="full nobackground">
+  <slide class="full nobackground" hidden>
     <aside class="note">
       <section>
         [speaker notes]

@@ -1479,14 +1479,27 @@ slide.pattern-1 {
 
 /* line 1032, ../scss/default.scss */
 slide.pattern-2 {
-  background-image: url(../../images/bg-car-service.jpg) !important;
+  background-image: url(../../images/container-overview.jpg) !important;
+  background-size: 100% !important;
 }
 
 /* line 1036, ../scss/default.scss */
+slide.pattern-3 {
+  background-image: url(../../images/container-cat.jpg) !important;
+  background-size: 100% !important;
+}
+
+/* line 1040, ../scss/default.scss */
+slide.pattern-4 {
+  background-image: url(../../images/container-building-production.jpg) !important;
+  background-size: 100% !important;
+}
+
+/* line 1045, ../scss/default.scss */
 .quote {
   color: white;
 }
-/* line 1039, ../scss/default.scss */
+/* line 1048, ../scss/default.scss */
 .quote .author {
   font-size: 24px;
   position: absolute;
@@ -1494,17 +1507,17 @@ slide.pattern-2 {
   line-height: 1.4;
 }
 
-/* line 1048, ../scss/default.scss */
+/* line 1057, ../scss/default.scss */
 [data-config-contact] span {
   width: 115px;
   display: inline-block;
 }
 
-/* line 1057, ../scss/default.scss */
+/* line 1066, ../scss/default.scss */
 .overview.popup .note {
   display: none !important;
 }
-/* line 1063, ../scss/default.scss */
+/* line 1072, ../scss/default.scss */
 .overview slides slide {
   display: block;
   cursor: pointer;
@@ -1517,26 +1530,26 @@ slide.pattern-2 {
   background: linear-gradient(#ffffff, #ffffff 85%, #e6e6e6);
   background-color: white;
 }
-/* line 1064, ../scss/default.scss */
+/* line 1073, ../scss/default.scss */
 .overview slides slide.backdrop {
   display: none !important;
 }
-/* line 1075, ../scss/default.scss */
+/* line 1084, ../scss/default.scss */
 .overview slides slide.far-past, .overview slides slide.past, .overview slides slide.next, .overview slides slide.far-next, .overview slides slide.far-past {
   opacity: 0.5;
   display: block;
 }
-/* line 1084, ../scss/default.scss */
+/* line 1093, ../scss/default.scss */
 .overview slides slide.current {
   opacity: 1;
 }
-/* line 1090, ../scss/default.scss */
+/* line 1099, ../scss/default.scss */
 .overview .slide-area {
   display: none;
 }
 
 @media print {
-  /* line 1097, ../scss/default.scss */
+  /* line 1106, ../scss/default.scss */
   slides slide {
     display: block !important;
     position: relative;
@@ -1560,46 +1573,46 @@ slide.pattern-2 {
     opacity: 1 !important;
     color: #555;
   }
-  /* line 1112, ../scss/default.scss */
+  /* line 1121, ../scss/default.scss */
   slides slide.far-past, slides slide.past, slides slide.next, slides slide.far-next, slides slide.far-past, slides slide.current {
     opacity: 1 !important;
     display: block !important;
   }
-  /* line 1123, ../scss/default.scss */
+  /* line 1132, ../scss/default.scss */
   slides slide .build > * {
     -moz-transition: none;
     -o-transition: none;
     -webkit-transition: none;
     transition: none;
   }
-  /* line 1127, ../scss/default.scss */
+  /* line 1136, ../scss/default.scss */
   slides slide .build .to-build,
   slides slide .build .build-fade {
     opacity: 1;
   }
-  /* line 1133, ../scss/default.scss */
+  /* line 1142, ../scss/default.scss */
   slides slide .auto-fadein {
     opacity: 1 !important;
   }
-  /* line 1137, ../scss/default.scss */
+  /* line 1146, ../scss/default.scss */
   slides slide.backdrop {
     display: none !important;
   }
-  /* line 1141, ../scss/default.scss */
+  /* line 1150, ../scss/default.scss */
   slides slide table.rows {
     border-right: 0;
   }
-  /* line 1146, ../scss/default.scss */
+  /* line 1155, ../scss/default.scss */
   slides slide[hidden] {
     display: none !important;
   }
 
-  /* line 1151, ../scss/default.scss */
+  /* line 1160, ../scss/default.scss */
   .slide-area {
     display: none;
   }
 
-  /* line 1155, ../scss/default.scss */
+  /* line 1164, ../scss/default.scss */
   pre, code {
     font-family: monospace !important;
   }
