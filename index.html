@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Docker for JavaScript Developers</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="theme/css/default.css">
+  <base target="_blank">
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0" class="blur-none">
+
+<slides class="layout-widescreen">
+
+  <!-- title -->
+  <slide class="title-slide segue nobackground">
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h1>Docker for JS Developers</h1>
+      <h2>subtitle</h2>
+      <h3>
+        Jörn Zaefferer<br>
+        <a href="http://bassistance.de">bassistance.de</a> /
+        <a href="https://twitter.com/bassistance">@bassistance</a><br>
+        <a href="http://jzaefferer.github.io/slides-docker-for-js-devs/">jzaefferer.github.io/slides-docker-for-js-devs/</a>
+      </h3>
+    </hgroup>
+  </slide>
+
+  <!-- section title -->
+  <slide class="segue big dark pattern-1">
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>1. Section title</h2>
+      <h3>sub</h3>
+    </hgroup>
+  </slide>
+
+  <!-- code -->
+  <slide>
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        FROM node:8-alpine
+
+        WORKDIR /usr/src/app
+
+        `COPY package.json yarn.lock /usr/src/app/`
+        `RUN yarn install --non-interactive --pure-lockfile`
+
+        COPY . /usr/src/app/
+
+        CMD ["yarn", "start"]
+      </textarea>
+    </article>
+  </slide>
+
+  <slide>
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-compose.yml</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="yml">
+        version: "3"
+        services:
+          pet-reminder:
+            build: .
+            ports:
+              - 3000:3000
+            volumes:
+              - ./src:/usr/src/app/src
+      </textarea>
+    </article>
+  </slide>
+
+  <!-- iframe -->
+  <slide>
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>iframe title</h2>
+    </hgroup>
+    <article>
+      <iframe src="demos/custom-widget.html"></iframe>
+    </article>
+  </slide>
+
+  <!-- build / slide with list -->
+  <slide>
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>List title</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>a</li>
+        <li>b</li>
+        <li>c</li>
+        <li>d</li>
+      </ul>
+    </article>
+  </slide>
+
+  <!-- full image, no background -->
+  <slide class="full nobackground">
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <img src="images/datepicker-custom-theme2.png">
+  </slide>
+
+  <!-- closing -->
+  <slide class="thank-you-slide">
+    <aside class="note">
+      <section>
+        [speaker notes]
+      </section>
+    </aside>
+    <article>
+      <ul>
+        <li><span>twitter</span><a href="http://twitter.com/@bassistance">@bassistance</a></li>
+        <li><span>email</span><a href="mailto:joern.zaefferer@gmail.com">joern.zaefferer@gmail.com</a></li>
+        <li><span>web</span><a href="http://bassistance.de">bassistance.de</a></li>
+        <li><span>resources</span><a href="https://github.com/jzaefferer/slides-docker-for-js-devs">github.com/jzaefferer/slides-docker-for-js-devs</a></li>
+        <li><span>slides</span><a href="http://jzaefferer.github.io/slides-docker-for-js-devs/">jzaefferer.github.io/slides-docker-for-js-devs/</a></li>
+      </ul>
+    </article>
+  </slide>
+
+
+  <slide class="backdrop"></slide>
+</slides>
+</body>
+</html>
