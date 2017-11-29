@@ -1114,7 +1114,7 @@ article.smaller q:before, article.smaller q:after {
   border-bottom-left-radius: 0;
 }
 .segue.dark h2 {
-  color: #F5DC43;
+  color: white;
   text-shadow: 0px 2px 6px #333;
 }
 .segue.dark h3 {
@@ -1219,7 +1219,7 @@ article.smaller q:before, article.smaller q:after {
   font-size: 70px;
   line-height: 70px;
   font-weight: inherit;
-  color: #F5DC43;
+  color: white;
   text-shadow: 0px 2px 6px #333;
   margin-bottom: 1.6em;
 }

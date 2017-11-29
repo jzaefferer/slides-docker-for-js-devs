@@ -16,7 +16,9 @@
   <slide class="title-slide segue nobackground">
     <aside class="note">
       <section>
-        [start screenflow! record everything (except computer audio)]
+        [start screenflow! record everything (except computer audio)]<br/>
+        [Cmd+F to go fullscreen on viewer tab; not native thingy!]<br/>
+        [turn off key repeat!]
       </section>
     </aside>
     <hgroup>
@@ -76,7 +78,7 @@
       <h2>Why Docker?</h2>
       <h3>
         <ul>
-          <li>Works on Windows</li>
+          <li>Works on Windows, OSX and Linux</li>
           <li>Manage different version like node/npm</li>
           <li>Deploy to cloud, with less vendor lock-in</li>
         </ul>
@@ -110,7 +112,8 @@
   <slide class="segue big dark pattern-3">
     <aside class="note">
       <section>
-        To start, let's look how we can use Docker for local development
+        To start, let's look how we can use Docker for local development<br/>
+        For that I'll show you how to build Docker images that include file watchers, so that changes in the editor show up inside the app.<br/>
       </section>
     </aside>
     <hgroup>
@@ -125,7 +128,7 @@
         WORKDIR tells Docker where to copy files. Can be pretty much any directory<br/>
         The first COPY only copies files we need to install dependencies with npm<br/>
         The RUN then does just that<br/>
-        Afterwards another COPY copies all files. This way we can use Docker's cache for dependencies as long as package.json doesn't change<br/>
+        Afterwards another COPY copies all files, from the host, to the docker image. This way we can use Docker's cache for dependencies as long as package.json doesn't change.<br/>
         Finally CMD is the command to run, here starting a server with file watcher
       </section>
     </aside>
@@ -144,6 +147,31 @@
         COPY . .
 
         CMD npm start
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        It just said that the 'COPY dot dot' copies all files, but that's not quite true.<br/>
+        It doesn't copy any files specified in the .dockerignore file, which looks like this<br/>
+        This is pretty much the same as your .gitignore or .npmignore file<br/>
+        None of these files are need inside the container, so not copying them makes for smaller images and faster builds.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>.dockerignore</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang=".dockerignore">
+        .editorconfig
+        .git
+        docker-compose.yml
+        Dockerfile
+        Dockerfile-prod
+        node_modules
+        README.md
+        sloppy.yml
       </textarea>
     </article>
   </slide>
