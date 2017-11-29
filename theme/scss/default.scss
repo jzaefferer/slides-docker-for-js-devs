@@ -930,17 +930,18 @@ article.smaller {
   }
   li {
     display: table-row;
+    font-size: 0.9em;
   }
   li > span {
     padding: 0.5em 1em 0.5em 0;
     display: table-cell;
     text-align: right;
-    color: white;
+    color: rgb(167, 167, 167);
   }
   li > a {
     display: table-cell;
     text-align: left;
-    color: yellow;
+    color: white;
   }
 }
 

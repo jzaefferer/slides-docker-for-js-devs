@@ -71,6 +71,7 @@
         Here's a few arguments that might work for you.<br/>
         node/npm on Windows can have path issues or incompatible binaries, using Docker avoids these<br/>
         Managing node/npm versions per project is annoying, Docker does that well<br/>
+        When doing continous integration, Docker helps by producing encapsulated applications<br/>
         Containers open up new options for deployments and operations! Once your app is in a container, it can run in many environments!
       </section>
     </aside>
@@ -79,7 +80,8 @@
       <h3>
         <ul>
           <li>Works on Windows, OSX and Linux</li>
-          <li>Manage different version like node/npm</li>
+          <li>Manage different binaries like node/npm, databases</li>
+          <li>Better CI: Small, encapsulated applications</li>
           <li>Deploy to cloud, with less vendor lock-in</li>
         </ul>
       </h3>
@@ -178,7 +180,69 @@
   <slide>
     <aside class="note">
       <section>
-        To build and run this locally, we can use docker-compose<br/>
+        With that, we can now build the Docker image, using the Docker CLI<br/>
+        The -t tells Docker how to name the image<br/>
+        The dot at the end tells it from the to build<br/>
+        Each arrow here marks a layer in the Docker image. If nothing changes, the next time we run this those layers are used from the cache. That's where it matters that we're using two different COPY commands.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker build</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        `$ docker build -t pet-reminder .`
+        Sending build context to Docker daemon  1.107MB
+        Step 1/6 : FROM node:8-alpine
+         ---> 4db2697ce114
+        Step 2/6 : WORKDIR /usr/src/app
+         ---> 95021e6b6a95
+        Step 3/6 : COPY package.json package-lock.json ./
+         ---> 9902359124a0
+        Step 4/6 : RUN npm install --silent
+         ---> 46f88f1a78b5
+        Step 5/6 : COPY . .
+         ---> 2213200d722a
+        Step 6/6 : CMD npm start
+         ---> 7646d9e10c94
+        Successfully built 7646d9e10c94
+        Successfully tagged pet-reminder:latest
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Once that is done, we can run the container locally<br/>
+        That works, but there's quite a few arguments that we have to specify<br/>
+        To avoid having to run both docker-build and docker-run every time, we can use docker-compose.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker run</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        `$ docker run -it -p 3000:3000 -v /projects/pet-reminder:/usr/src/app -t pet-reminder`
+        > pet-reminder@0.1.0 start /usr/src/app
+        > react-scripts start
+        Starting the development server...
+
+        Compiled successfully!
+
+        You can now view pet-reminder in the browser.
+
+          Local:            http://localhost:3000/
+          On Your Network:  http://172.17.0.3:3000/
+
+        Note that the development build is not optimized.
+        To create a production build, use npm run build.
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
         In this very simple setup, we specify a single service, built on demand<br/>
         We specify the port to expose, to open the web app in the browser<br/>
         And we map files to the host, so that the webpack-dev-server can pick up changes
@@ -198,73 +262,13 @@
             volumes:
               - .:/usr/src/app
       </textarea>
-    </article>
-  </slide>
-  <slide>
-    <aside class="note">
-      <section>
-        With these two files, we can now run docker-compose and get something like the following output (page 1)<br/>
-        Here the Docker container is built
-      </section>
-    </aside>
-    <hgroup>
-      <h2>docker-compose up --build</h2>
-    </hgroup>
-    <article>
       <textarea class="prettyprint" data-lang="bash">
-        $ docker-compose up --build
+        `$ docker-compose up --build`
         Building pet-reminder
         Step 1/6 : FROM node:8-alpine
-          ---> b7e15c83cdaf
-        Step 2/6 : WORKDIR /usr/src/app
-          ---> Using cache
-          ---> f2d4399af6ff
-        Step 3/6 : COPY package.json package-lock.json ./
-          ---> 6382a5ccf1da
-        Step 4/6 : RUN npm install --silent
-          ---> Running in 50e9b8fcaef1
-        added 1298 packages in 79.942s
-          ---> 141da2d062f2
-        Removing intermediate container 50e9b8fcaef1
-        Step 5/6 : COPY . .
-          ---> 61ea82055581
-        Step 6/6 : CMD npm start
-          ---> Running in 6e31c194301c
-          ---> a3e21611b6cb
-        Removing intermediate container 6e31c194301c
-      </textarea>
-    </article>
-  </slide>
-  <slide>
-    <aside class="note">
-      <section>
-        (page 2) Here the built container is tagged and started
-      </section>
-    </aside>
-    <hgroup>
-      <h2>docker-compose up --build</h2>
-    </hgroup>
-    <article>
-      <textarea class="prettyprint" data-lang="bash">
-        Successfully tagged dockerforjsdevs_pet-reminder:latest
-        Recreating dockerforjsdevs_pet-reminder_1 ... done
-        Attaching to dockerforjsdevs_pet-reminder_1
-        pet-reminder_1  |
-        pet-reminder_1  | > pet-reminder@0.1.0 start /usr/src/app
-        pet-reminder_1  | > react-scripts start
-        pet-reminder_1  |
-        pet-reminder_1  | Starting the development server...
-        pet-reminder_1  |
-        pet-reminder_1  | Compiled successfully!
-        pet-reminder_1  |
-        pet-reminder_1  | You can now view pet-reminder in the browser.
-        pet-reminder_1  |
-        pet-reminder_1  |   Local:            http://localhost:3000/
-        pet-reminder_1  |   On Your Network:  http://172.18.0.2:3000/
-        pet-reminder_1  |
-        pet-reminder_1  | Note that the development build is not optimized.
-        pet-reminder_1  | To create a production build, use npm run build.
-        pet-reminder_1  |
+        [...]
+        Starting the development server...
+        [...]
       </textarea>
     </article>
   </slide>
@@ -582,10 +586,60 @@
       </textarea>
     </article>
   </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Once we've built both images, we can push them to Docker Hub<br/>
+        Docker Hub is for Docker images what GitHub is for Git repositories<br/>
+        We can push and pull our own images, including private ones, and pull all other public images.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-push in progress</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        `$ docker push jzaefferer/pet-reminder-api`
+        The push refers to repository [docker.io/jzaefferer/pet-reminder-api]
+        74b37ead1268: Pushing    169kB
+        881fe0420fc7: Pushing  166.4kB/13.86MB
+        c9a3d04ab64c: Pushing  156.2kB
+        956097998357: Pushing   2.56kB
+        27bfa37e00a5: Preparing
+        be7f582bc675: Waiting
+        2aebd096e0e2: Waiting
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Once that is done, Docker hosting services can also pull our image and run it.<br/>
+        On hub.docker.com we can then see what our image looks like to others
+      </section>
+    </aside>
+    <hgroup>
+      <h2>docker-push finished</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        `$ docker push jzaefferer/pet-reminder-api`
+        The push refers to repository [docker.io/jzaefferer/pet-reminder-api]
+        74b37ead1268: Pushed
+        881fe0420fc7: Pushed
+        c9a3d04ab64c: Pushed
+        956097998357: Pushed
+        27bfa37e00a5: Mounted from library/node
+        be7f582bc675: Mounted from library/node
+        2aebd096e0e2: Mounted from library/node
+        latest: digest: sha256:9bffd5bf346dcc13780934c8... size: 1787
+      </textarea>
+    </article>
+  </slide>
   <slide class="full nobackground">
     <aside class="note">
       <section>
-        Here's the tag after pushing the image to Docker Hub
+        Here's the tag for the web app images, after pushing the image to Docker Hub
       </section>
     </aside>
     <img src="images/docker-hub-web.png">
@@ -593,7 +647,8 @@
   <slide class="full nobackground">
     <aside class="note">
       <section>
-        The nodejs image is a bit bigger, but 29 MB is also very compact
+        The nodejs image is a bit bigger, but 29 MB is also very compact<br/>
+        After this publishing step, we can now look into deploying our container...
       </section>
     </aside>
     <img src="images/docker-hub-api.png">
@@ -619,17 +674,14 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Self-host Docker in VM, with any VM hoster</h2>
+      <h2>Self-host Docker, with any root-access hoster</h2>
     </hgroup>
     <article>
       <ul>
         <li>AWS</li>
         <li>DigitalOcean</li>
         <li>Azure</li>
-        <li>...any</li>
-        <li>other</li>
-        <li>VM</li>
-        <li>hoster...</li>
+        <li>...any other VM hoster...</li>
       </ul>
     </article>
   </slide>
@@ -641,10 +693,11 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Self-host Docker-orchestration platform in VM</h2>
+      <h2>Self-host Docker-orchestration platform</h2>
     </hgroup>
     <article>
       <ul>
+        <li>docker-compose</li>
         <li>Docker Swarm</li>
         <li>Kubernetes</li>
         <li>DC/OS</li>
@@ -825,40 +878,46 @@
   <!-- Configuration -->
   <!-- later...? -->
 
-  <!-- Shortcomings -->
-  <slide class="segue big dark pattern-1">
+  <!-- Summary -->
+  <slide class="segue big dark pattern-2">
     <aside class="note">
       <section>
-        There's more in the two code repositories, including a nice solution for runtime configuration via environment variables of the nginx image. That's too much detail to cover here though.<br/>
-        Missing in those repos is integration of running linters and other testing tools, like unit tests. Also updating lock files still requires running npm or yarn outside of Docker. I haven't seen good solutions for either issue.<br/>
-        I'm very much interested in solving those problems and improving the solutions I presented - please share your ideas! I’ll integrate them in future versions of this talk (and credit you, if you want).
+        With that we're coming to the end.<br/>
+        With a few files, we can build and run docker images locally<br/>
+        Build optimized images for production deployments<br/>
+        And deploy them live with a few seconds<br/>
+        That said, there's more to working with Docker...
       </section>
     </aside>
     <hgroup>
-      <h2>To Be Improved</h2>
+      <h2>That's all</h2>
       <h3>
         <ul>
-          <li>Skipped: Runtime configuration for static HTML</li>
-          <li>Unsolved: Linter und (unit) test setup</li>
-          <li>Unsolved: Updating lock files inside container</li>
+          <li>Docker locally: Dockerfile + docker-compose.yml</li>
+          <li>Building for production: Dockerfile-prod + Makefile</li>
+          <li>Deploying: sloppy.yml + sloppy.io CLI</li>
         </ul>
       </h3>
     </hgroup>
   </slide>
-  <!-- Summary/RFC -->
-  <slide class="segue big dark pattern-2" hidden>
+  <slide class="segue big dark pattern-2">
     <aside class="note">
       <section>
-        [fnaifawnifiwna]
+        There are some solved issues that didn't fit here, as well as some that end up with project-specific solutions, but lack generic approaches.<br/>
+        Running tests and building production images as part of a continous integration pipeline is useful in almost every project<br/>
+        While alpine based images are very small, they can also cause issues with incompatible binaries.<br/>
+        I'm very much interested in your feedback, questions and ideas!
       </section>
     </aside>
     <hgroup>
-      <h2>Closing</h2>
+      <h2>Future topics</h2>
       <h3>
         <ul>
-          <li>Docker locally</li>
-          <li>Building for production</li>
-          <li>Deploying</li>
+          <li>Runtime configuration for static web apps</li>
+          <li>Linter and unit test setup</li>
+          <li>Updating npm/yarn lock files inside container</li>
+          <li>CI pipeline</li>
+          <li>alpine issues</li>
         </ul>
       </h3>
     </hgroup>
@@ -879,9 +938,8 @@
         <li><span>twitter</span><a href="http://twitter.com/@bassistance">@bassistance</a></li>
         <li><span>email</span><a href="mailto:joern.zaefferer@gmail.com">joern.zaefferer@gmail.com</a></li>
         <li><span>slides</span><a href="http://jzaefferer.github.io/slides-docker-for-js-devs/">jzaefferer.github.io/slides-docker-for-js-devs/</a></li>
-        <li><span>code 1</span><a href="https://github.com/jzaefferer/docker-for-js-devs">github.com/jzaefferer/docker-for-js-devs</a></li>
-        <li><span>code 2</span><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">github.com/jzaefferer/docker-for-nodejs-devs</a></li>
-        <li><span>thanks</span> Katharina Schlüter, Martin Malinowski</li>
+        <li><span>webapp</span><a href="https://github.com/jzaefferer/docker-for-js-devs">github.com/jzaefferer/docker-for-js-devs</a></li>
+        <li><span>nodejs</span><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">github.com/jzaefferer/docker-for-nodejs-devs</a></li>
       </ul>
     </article>
   </slide>

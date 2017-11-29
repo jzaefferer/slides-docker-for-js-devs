@@ -1183,17 +1183,18 @@ article.smaller q:before, article.smaller q:after {
 }
 .thank-you-slide li {
   display: table-row;
+  font-size: 0.9em;
 }
 .thank-you-slide li > span {
   padding: 0.5em 1em 0.5em 0;
   display: table-cell;
   text-align: right;
-  color: white;
+  color: #a7a7a7;
 }
 .thank-you-slide li > a {
   display: table-cell;
   text-align: left;
-  color: yellow;
+  color: white;
 }
 
 .title-slide {
