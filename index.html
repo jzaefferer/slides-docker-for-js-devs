@@ -92,8 +92,9 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Code on GitHub</h2>
+      <h2>Let's look at code!</h2>
       <h3>
+        All on GitHub:
         <ul>
           <li><a href="https://github.com/jzaefferer/docker-for-js-devs">frontend/webpack example</a></li>
           <li><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">backend/nodejs example</a></li>
@@ -310,7 +311,8 @@
   <slide>
     <aside class="note">
       <section>
-        Opening this in the browser gives us a list of pets, as JSON
+        Opening this in the browser gives us a list of pets, as JSON, retrieved from the CouchDB instance running locally.<br/>
+        There's more to developing locally, but Docker is less relevant there. So instead, let's look at...
       </section>
     </aside>
     <hgroup>
@@ -322,17 +324,443 @@
   </slide>
 
   <!-- building for production -->
-  <!-- FIXME shitty layout -->
   <slide class="segue big dark pattern-4">
     <aside class="note">
       <section>
-        ...
+        [read title]<br/>
+        For that I'm going to start with the nodejs example
       </section>
     </aside>
     <hgroup>
-      <h2>Building containers for production</h2>
+      <h2>Building for production</h2>
     </hgroup>
   </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        This is the Dockerfile we use for the local build
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile, nodejs</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        FROM node:8-alpine
+
+        WORKDIR /usr/src/app
+
+        COPY package.json package-lock.json ./
+        `RUN npm install --silent`
+
+        COPY . .
+
+        `CMD npm start`
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        This is the one for the production build<br/>
+        As you can see, there's very little difference. We don't install any devDependencies (only production), and we run a different command to start the process without a file watcher
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile-prod, nodejs</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        FROM node:8-alpine
+
+        WORKDIR /usr/src/app
+
+        COPY package.json package-lock.json ./
+        `RUN npm install --only=production --silent`
+
+        COPY . .
+
+        `CMD npm run prod`
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Turning this into a Docker image looks like this...<br/>
+        Its almost a bit boring, so let's look at building with webpack and nginx
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Building for nodejs</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        $ docker build -f Dockerfile-prod -t jzaefferer/pet-reminder-api .
+        Sending build context to Docker daemon  252.9kB
+        Step 1/6 : FROM node:8-alpine
+         ---> 4db2697ce114
+        Step 2/6 : WORKDIR /usr/src/app
+         ---> 1ca5a8710e25
+        Step 3/6 : COPY package.json package-lock.json ./
+         ---> 463f204fbfd2
+        Step 4/6 : RUN npm install --only=production --silent
+         ---> Running in 3782c10fd2ac
+        added 131 packages in 7.314s
+         ---> eace0b44fefe
+        Step 5/6 : COPY . .
+         ---> 064d6d0bfc9e
+        Step 6/6 : CMD npm run prod
+         ---> Running in 2e9ef5a31a6e
+         ---> daebec187dc0
+        Successfully built daebec187dc0
+        Successfully tagged jzaefferer/pet-reminder-api:latest
+      </textarea>
+    </article>
+  </slide>
+  <!-- webpack -->
+  <slide>
+    <aside class="note">
+      <section>
+        For the web app, we want to use nginx to serve static html files<br/>
+        But since we first need to build those files, we need to steps<br/>
+        Thanks for multistage Docker builds, we can put this into a single Dockerfile.<br/>
+        This is the first half. Its very similar to the previous Dockerfile,
+        except for the 'as builder' in the FROM command. And we copy less files, to make the best use of the Docker cache.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile-prod, webpack/nginx</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        `FROM node:8-alpine as builder`
+
+        WORKDIR /usr/src/app
+
+        COPY package.json package-lock.json ./
+        RUN npm install --only=production --silent
+
+        COPY public public/
+        COPY src src/
+
+        RUN npm run build
+
+        `## 2nd stage`
+
+        `FROM nginx:1.13.6-alpine`
+
+        [...]
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        In the second stage, we start with a different base image, here nginx-alpine.<br/>
+        We then copy the built files from the first stage, using the --form=builder argument<br/>
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Dockerfile-prod, webpack/nginx</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="Dockerfile">
+        [...]
+
+        ## 2nd stage
+
+        `FROM nginx:1.13.6-alpine`
+
+        COPY nginx.conf /etc/nginx/nginx.conf
+        `COPY --from=builder` /usr/src/app/build /usr/share/nginx/html/
+        `COPY --from=builder` /usr/src/app/build/index.html /usr/share/nginx/index-template.html
+
+        COPY nginx-entrypoint.sh /
+
+        ENTRYPOINT ["sh", "/nginx-entrypoint.sh"]
+
+        CMD ["nginx"]
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        When we build this, we output a very compact nginx image, weighing just 7 MBs, using a single docker-build command. No extra scripts needed.<br/>
+        This is the relevant output from the first stage, creating the production files
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Building for webpack/nginx, stage 1</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        $ docker build -f Dockerfile-prod -t jzaefferer/pet-reminder .
+        Sending build context to Docker daemon   1.11MB
+        Step 1/14 : FROM node:8-alpine as builder
+         ---> 4db2697ce114
+        [...]
+        Step 7/14 : RUN npm run build
+         ---> Running in b5c7bae85ab5
+
+        > pet-reminder@0.1.0 build /usr/src/app
+        > react-scripts build
+
+        Creating an optimized production build...
+        Compiled successfully.
+
+          35.73 KB  build/static/js/main.e123ee39.js
+          318 B     build/static/css/main.83efae16.css
+
+         ---> ac3ee777c1b1
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Which are then copied to the right folders in the second stage, resulting in the nginx image with static html, js and css files.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Building for webpack/nginx, stage 2</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        Step 8/14 : FROM nginx:1.13.6-alpine
+        1.13.6-alpine: Pulling from library/nginx
+         ---> 5c6da346e3d6
+        Step 9/14 : COPY nginx.conf /etc/nginx/nginx.conf
+         ---> 2b9a65e251bd
+        Step 10/14 : COPY --from=builder /usr/src/app/build /usr/share/nginx/html/
+         ---> 555c8890ce24
+        Step 11/14 : COPY --from=builder /usr/src/app/build/index.html /usr/share/nginx/index-template.html
+         ---> 02b45d2a4f74
+        Step 12/14 : COPY nginx-entrypoint.sh /
+         ---> e4927e1c0421
+        Step 13/14 : ENTRYPOINT ["sh", "/nginx-entrypoint.sh"]
+         ---> Running in 30ccf88c8d87
+         ---> 709178c294ec
+        Step 14/14 : CMD ["nginx"]
+         ---> Running in b2ef0cfb1921
+         ---> 55c59a57f14e
+        Successfully built 55c59a57f14e
+        Successfully tagged jzaefferer/pet-reminder:latest
+      </textarea>
+    </article>
+  </slide>
+  <slide class="full nobackground">
+    <aside class="note">
+      <section>
+        Here's the tag after pushing the image to Docker Hub
+      </section>
+    </aside>
+    <img src="images/docker-hub-web.png">
+  </slide>
+  <slide class="full nobackground">
+    <aside class="note">
+      <section>
+        The nodejs image is a bit bigger, but 29 MB is also very compact
+      </section>
+    </aside>
+    <img src="images/docker-hub-api.png">
+  </slide>
+
+  <!-- deploying -->
+  <slide class="segue big dark pattern-5">
+    <aside class="note">
+      <section>
+        When it comes to deploying containers, we have a loooot of options.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Deploying containers</h2>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <aside class="note">
+      <section>
+        You could install Docker in a VM, hosted anywhere<br/>
+        That's an option, but then you also need to manage everything yourself
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Self-host Docker in VM, with any VM hoster</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>AWS</li>
+        <li>DigitalOcean</li>
+        <li>Azure</li>
+        <li>...any</li>
+        <li>other</li>
+        <li>VM</li>
+        <li>hoster...</li>
+      </ul>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        You could use a platorm built on top of Docker<br/>
+        Still need to manage the underlying resources and the platform on top
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Self-host Docker-orchestration platform in VM</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Docker Swarm</li>
+        <li>Kubernetes</li>
+        <li>DC/OS</li>
+        <li>Rancher</li>
+        <li>Dokku</li>
+      </ul>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        You could let someone else host the platform built on top of Docker<br/>
+        Less management on the OS level, but potentially still lots of work on the platform level
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Use hosted Docker-orchestration platform</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>usually Kubernetes...</li>
+        <li>Google Container Engine</li>
+        <li>Amazon Elastic Container Service</li>
+        <li>Azure Container Service</li>
+      </ul>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        You could let someone else do most of the hosting for you, including load balancing, logging, monitoring, creating and updating SSL certificates...<br/>
+        All you do is provide Docker images and a bit of configuration<br/>
+        From what I can tell, the serious offers in this space are these three<br/>
+        Since I know sloppy.io best, I'll show how to deploy there
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Use hosted Docker</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>hyper.sh</li>
+        <li>zeit.co/now</li>
+        <li>sloppy.io</li>
+      </ul>
+    </article>
+  </slide>
+  <!-- deploy to sloppy.io -->
+  <slide>
+    <aside class="note">
+      <section>
+
+      </section>
+    </aside>
+    <hgroup>
+      <h2>sloppy.yml, webpack/nginx</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="yml">
+        version: "v1"
+        project: "pet-reminder"
+        services:
+          frontend:
+            nginx:
+              image: jzaefferer/pet-reminder
+              domain: "pet-reminder.sloppy.zone"
+              port: 80
+              mem: 64
+              instances: 1
+              env:
+                - PETS_API_URL: https://pet-reminder-api.sloppy.zone/
+      </textarea>
+    </article>
+  </slide>
+  <slide>
+    <aside class="note">
+      <section>
+
+      </section>
+    </aside>
+    <hgroup>
+      <h2>sloppy change sloppy.yml</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="bash">
+        $ sloppy change sloppy.yml
+        +----------+--------+--------+--------------+
+        | SERVICE  | # APPS | STATUS | TOTAL MEMORY |
+        +----------+--------+--------+--------------+
+        | frontend |      1 |  1 / 1 |       64 MiB |
+        +----------+--------+--------+--------------+
+      </textarea>
+    </article>
+  </slide>
+  <!-- nodejs -->
+  <slide>
+      <aside class="note">
+        <section>
+
+        </section>
+      </aside>
+      <hgroup>
+        <h2>sloppy.yml, nodejs</h2>
+      </hgroup>
+      <article>
+        <textarea class="prettyprint" data-lang="yml">
+            version: "v1"
+            project: "pet-reminder-api"
+            services:
+              backend:
+                api:
+                  image: jzaefferer/pet-reminder-api
+                  domain: "pet-reminder-api.sloppy.zone"
+                  port: 7777
+                  env:
+                    - PORT: "7777"
+                    - COUCHDB_URL: http://db.backend.pet-reminder-api:5984
+                  dependencies:
+                    - "db"
+                db:
+                  image: couchdb:1.7.1
+                  domain: "pet-reminder-api-db.sloppy.zone"
+                  port: 5984
+                  volumes:
+                    - container_path: /usr/local/var/lib/couchdb
+        </textarea>
+      </article>
+    </slide>
+    <slide>
+      <aside class="note">
+        <section>
+
+        </section>
+      </aside>
+      <hgroup>
+        <h2>sloppy change sloppy.yml, nodejs</h2>
+      </hgroup>
+      <article>
+        <textarea class="prettyprint" data-lang="bash">
+          $ sloppy change sloppy.yml
+          +---------+--------+--------+--------------+
+          | SERVICE | # APPS | STATUS | TOTAL MEMORY |
+          +---------+--------+--------+--------------+
+          | backend |      2 |  2 / 2 |      384 MiB |
+          +---------+--------+--------+--------------+
+        </textarea>
+      </article>
+    </slide>
 
   <!-- section title -->
   <slide class="segue big dark pattern-1" hidden>
