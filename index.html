@@ -80,6 +80,7 @@
           <li>Manage different version like node/npm</li>
           <li>Deploy to cloud, with less vendor lock-in</li>
         </ul>
+      </h3>
     </hgroup>
   </slide>
 
@@ -99,6 +100,7 @@
           <li><a href="https://github.com/jzaefferer/docker-for-js-devs">frontend/webpack example</a></li>
           <li><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">backend/nodejs example</a></li>
         </ul>
+      </h3>
     </hgroup>
   </slide>
 
@@ -664,7 +666,8 @@
   <slide>
     <aside class="note">
       <section>
-
+        This is sloppy.io's yaml configuration. We configure the image to pull from Docker hub, set a domain for testing, along with the port, how much memory to give the container, and where to find the backend service.<br/>
+        This can be used with the CLI; we could also use the web interface.
       </section>
     </aside>
     <hgroup>
@@ -690,7 +693,7 @@
   <slide>
     <aside class="note">
       <section>
-
+        Using the CLI, we tell it which config file to deploy.
       </section>
     </aside>
     <hgroup>
@@ -707,180 +710,145 @@
       </textarea>
     </article>
   </slide>
-  <!-- nodejs -->
   <slide>
-      <aside class="note">
-        <section>
-
-        </section>
-      </aside>
-      <hgroup>
-        <h2>sloppy.yml, nodejs</h2>
-      </hgroup>
-      <article>
-        <textarea class="prettyprint" data-lang="yml">
-            version: "v1"
-            project: "pet-reminder-api"
-            services:
-              backend:
-                api:
-                  image: jzaefferer/pet-reminder-api
-                  domain: "pet-reminder-api.sloppy.zone"
-                  port: 7777
-                  env:
-                    - PORT: "7777"
-                    - COUCHDB_URL: http://db.backend.pet-reminder-api:5984
-                  dependencies:
-                    - "db"
-                db:
-                  image: couchdb:1.7.1
-                  domain: "pet-reminder-api-db.sloppy.zone"
-                  port: 5984
-                  volumes:
-                    - container_path: /usr/local/var/lib/couchdb
-        </textarea>
-      </article>
-    </slide>
-    <slide>
-      <aside class="note">
-        <section>
-
-        </section>
-      </aside>
-      <hgroup>
-        <h2>sloppy change sloppy.yml, nodejs</h2>
-      </hgroup>
-      <article>
-        <textarea class="prettyprint" data-lang="bash">
-          $ sloppy change sloppy.yml
-          +---------+--------+--------+--------------+
-          | SERVICE | # APPS | STATUS | TOTAL MEMORY |
-          +---------+--------+--------+--------------+
-          | backend |      2 |  2 / 2 |      384 MiB |
-          +---------+--------+--------+--------------+
-        </textarea>
-      </article>
-    </slide>
-
-  <!-- section title -->
-  <slide class="segue big dark pattern-1" hidden>
     <aside class="note">
       <section>
-        [speaker notes]
+        In the web UI, we can then see the project getting deployed and running
       </section>
     </aside>
     <hgroup>
-      <h2>Why Docker?</h2>
-      <!-- <h3>sub</h3> -->
-    </hgroup>
-  </slide>
-
-  <!-- code -->
-  <slide hidden>
-    <aside class="note">
-      <section>
-        [speaker notes]
-      </section>
-    </aside>
-    <hgroup>
-      <h2>Dockerfile</h2>
+      <h2>web project on sloppy.io</h2>
     </hgroup>
     <article>
-      <textarea class="prettyprint" data-lang="Dockerfile">
-        FROM node:8-alpine
-
-        WORKDIR /usr/src/app
-
-        `COPY package.json yarn.lock /usr/src/app/`
-        `RUN yarn install --non-interactive --pure-lockfile`
-
-        COPY . /usr/src/app/
-
-        CMD ["yarn", "start"]
-      </textarea>
+      <iframe src="https://admin.sloppy.io/project/pet-reminder"></iframe>
     </article>
   </slide>
-
-  <slide hidden>
+  <!-- nodejs -->
+  <slide>
     <aside class="note">
       <section>
-        [speaker notes]
+        For the nodejs project, the process is the same. In addition to our own app, we also deploy CouchDB, just like we did with docker-compose locally before
       </section>
     </aside>
     <hgroup>
-      <h2>docker-compose.yml</h2>
+      <h2>sloppy.yml, nodejs</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="yml">
-        version: "3"
-        services:
-          pet-reminder:
-            build: .
-            ports:
-              - 3000:3000
-            volumes:
-              - ./src:/usr/src/app/src
+          version: "v1"
+          project: "pet-reminder-api"
+          services:
+            backend:
+              api:
+                image: jzaefferer/pet-reminder-api
+                domain: "pet-reminder-api.sloppy.zone"
+                port: 7777
+                env:
+                  - PORT: "7777"
+                  - COUCHDB_URL: http://db.backend.pet-reminder-api:5984
+                dependencies:
+                  - "db"
+              db:
+                image: couchdb:1.7.1
+                domain: "pet-reminder-api-db.sloppy.zone"
+                port: 5984
+                volumes:
+                  - container_path: /usr/local/var/lib/couchdb
       </textarea>
     </article>
   </slide>
-
-  <!-- iframe -->
-  <slide hidden>
+  <slide>
     <aside class="note">
       <section>
-        [speaker notes]
+        When deploying this, we can see two apps getting deployed
       </section>
     </aside>
     <hgroup>
-      <h2>iframe title</h2>
+      <h2>sloppy change sloppy.yml, nodejs</h2>
     </hgroup>
     <article>
-      <iframe src="demos/custom-widget.html"></iframe>
+      <textarea class="prettyprint" data-lang="bash">
+        $ sloppy change sloppy.yml
+        +---------+--------+--------+--------------+
+        | SERVICE | # APPS | STATUS | TOTAL MEMORY |
+        +---------+--------+--------+--------------+
+        | backend |      2 |  2 / 2 |      384 MiB |
+        +---------+--------+--------+--------------+
+      </textarea>
     </article>
   </slide>
-
-  <!-- build / slide with list -->
-  <slide hidden>
+  <slide>
     <aside class="note">
       <section>
-        [speaker notes]
+        And we can find this project in the web UI as well. Here we could also check stats and logs and so on. [if they manage to load]<br/>
+        Deployment to other services will of course be different, but the basic idea should be the same. Use existing images along with your own, and connect those to a public URL.
       </section>
     </aside>
     <hgroup>
-      <h2>List title</h2>
+      <h2>api project on sloppy.io</h2>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>a</li>
-        <li>b</li>
-        <li>c</li>
-        <li>d</li>
-      </ul>
+      <iframe src="https://admin.sloppy.io/project/pet-reminder-api"></iframe>
     </article>
   </slide>
 
-  <!-- full image, no background -->
-  <slide class="full nobackground" hidden>
+  <!-- Configuration -->
+  <!-- later...? -->
+
+  <!-- Shortcomings -->
+  <slide class="segue big dark pattern-1">
     <aside class="note">
       <section>
-        [speaker notes]
+        There's more in the two code repositories, including a nice solution for runtime configuration via environment variables of the nginx image. That's too much detail to cover here though.<br/>
+        Missing in those repos is integration of running linters and other testing tools, like unit tests. Also updating lock files still requires running npm or yarn outside of Docker. I haven't seen good solutions for either issue.<br/>
+        I'm very much interested in solving those problems and improving the solutions I presented - please share your ideas! I’ll integrate them in future versions of this talk (and credit you, if you want).
       </section>
     </aside>
-    <img src="images/seecontainer-gartenhaus.jpg">
+    <hgroup>
+      <h2>To Be Improved</h2>
+      <h3>
+        <ul>
+          <li>Skipped: Runtime configuration for static HTML</li>
+          <li>Unsolved: Linter und (unit) test setup</li>
+          <li>Unsolved: Updating lock files inside container</li>
+        </ul>
+      </h3>
+    </hgroup>
+  </slide>
+  <!-- Summary/RFC -->
+  <slide class="segue big dark pattern-2" hidden>
+    <aside class="note">
+      <section>
+        [fnaifawnifiwna]
+      </section>
+    </aside>
+    <hgroup>
+      <h2>Closing</h2>
+      <h3>
+        <ul>
+          <li>Docker locally</li>
+          <li>Building for production</li>
+          <li>Deploying</li>
+        </ul>
+      </h3>
+    </hgroup>
   </slide>
 
   <!-- closing -->
   <slide class="thank-you-slide">
     <aside class="note">
       <section>
-        [speaker notes]
+        If you want to contact me later: You can find me on Twitter or reach me by email<br/>
+        The slides are online already, along with the two GitHub repositories<br/>
+        I want to thank Katharina and Martin for their help, reviewing early drafts of this talk and helping find the background images.
+        [time for Q/A?]<br/>
+        Thanks for your attention!
       </section>
     </aside>
     <article>
       <ul>
         <li><span>twitter</span><a href="http://twitter.com/@bassistance">@bassistance</a></li>
         <li><span>email</span><a href="mailto:joern.zaefferer@gmail.com">joern.zaefferer@gmail.com</a></li>
-        <li><span>web</span><a href="http://bassistance.de">bassistance.de</a></li>
         <li><span>slides</span><a href="http://jzaefferer.github.io/slides-docker-for-js-devs/">jzaefferer.github.io/slides-docker-for-js-devs/</a></li>
         <li><span>code 1</span><a href="https://github.com/jzaefferer/docker-for-js-devs">github.com/jzaefferer/docker-for-js-devs</a></li>
         <li><span>code 2</span><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">github.com/jzaefferer/docker-for-nodejs-devs</a></li>
@@ -888,7 +856,6 @@
       </ul>
     </article>
   </slide>
-
 
   <slide class="backdrop"></slide>
 </slides>
