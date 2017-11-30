@@ -109,6 +109,37 @@
       </h3>
     </hgroup>
   </slide>
+  <slide>
+    <aside class="note">
+      <section>
+        Here's the package.json file to the web app. Most of the dependencies are hidden inside react-scripts, which in turn is expose as npm scripts.<br/>
+        The nodejs example is also using npm as its package manager, accordingly all the Docker examples are also based on that. For different setups you would likely need different Docker solutions as well.
+      </section>
+    </aside>
+    <hgroup>
+      <h2>package.json</h2>
+    </hgroup>
+    <article>
+      <textarea class="prettyprint" data-lang="json">
+        {
+          "name": "pet-reminder",
+          "version": "0.1.0",
+          "private": true,
+          "dependencies": {
+            "react": "^16.1.1",
+            "react-dom": "^16.1.1",
+            "react-scripts": "1.0.17"
+          },
+          "scripts": {
+            "start": "react-scripts start",
+            "build": "react-scripts build",
+            "test": "react-scripts test --env=jsdom",
+            "eject": "react-scripts eject"
+          }
+        }
+      </textarea>
+    </article>
+  </slide>
 
   <!-- Docker locally -->
   <slide class="segue big dark pattern-3">
