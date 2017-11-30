@@ -13,7 +13,7 @@
 
 <slides class="layout-widescreen">
 
-  <slide class="title-slide segue nobackground">
+  <slide class="title-slide segue">
     <aside class="note">
       <section>
         [start screenflow! record everything (except computer audio)]<br/>
@@ -31,7 +31,7 @@
       </h3>
     </hgroup>
   </slide>
-  <slide class="title-slide segue nobackground">
+  <slide class="title-slide segue">
     <aside class="note">
       <section>
         Welcome to CologneJS. My name is Jörn Zaefferer. I've been writing JavaScript professionally for 11 years now, both on open source projects like jQuery, jQuery UI or QUnit, and on many commercial projects, like SoundCloud and in the last two and a half years, for sloppy.io. That is where I also learned a lot about Docker, since we're offering Docker container hosting, and using containers internally a lot.
@@ -49,7 +49,7 @@
       </h3>
     </hgroup>
   </slide>
-  <slide class="title-slide segue nobackground">
+  <slide class="title-slide segue">
     <aside class="note">
       <section>
         Hands up if you've worked with Docker!<br>
@@ -95,7 +95,7 @@
         No need to copy code examples, they're all in there<br/>
         They're fully functional, can you try them later.<br/>
         The web app is based on create-react-app and renders a little bit of text, but also does a GET request to a backend server<br/>
-        The other project is a nodejs app based on express, and provides a REST API on top of CouchDB
+        The other project is a Node.js app based on express, and provides a REST API on top of CouchDB
       </section>
     </aside>
     <hgroup>
@@ -103,8 +103,10 @@
       <h3>
         All on GitHub:
         <ul>
-          <li>github.com/jzaefferer/docker-for-js-devs web app based on create-react-app</li>
-          <li>github.com/jzaefferer/docker-for-nodejs-devs rest backend, nodejs and express, with CouchDB</a></li>
+          <li>github.com/jzaefferer/docker-for-js-devs<br/>
+            web app based on create-react-app</li>
+          <li>github.com/jzaefferer/docker-for-nodejs-devs<br/>
+            rest backend, Node.js and express, with CouchDB</a></li>
         </ul>
       </h3>
     </hgroup>
@@ -325,7 +327,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Dockerfile, nodejs</h2>
+      <h2>Dockerfile, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="Dockerfile">
@@ -350,7 +352,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>docker-compose.yml, nodejs</h2>
+      <h2>docker-compose.yml, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="yml">
@@ -409,7 +411,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Dockerfile, nodejs</h2>
+      <h2>Dockerfile, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="Dockerfile">
@@ -434,7 +436,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Dockerfile-prod, nodejs</h2>
+      <h2>Dockerfile-prod, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="Dockerfile">
@@ -459,7 +461,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>Building for nodejs</h2>
+      <h2>Building for Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="bash">
@@ -678,7 +680,7 @@
   <slide class="full nobackground">
     <aside class="note">
       <section>
-        The nodejs image is a bit bigger, but 29 MB is also very compact<br/>
+        The Node.js image is a bit bigger, but 29 MB is also very compact<br/>
         After this publishing step, we can now look into deploying our container...
       </section>
     </aside>
@@ -845,7 +847,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>sloppy.yml, nodejs</h2>
+      <h2>sloppy.yml, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="yml">
@@ -878,7 +880,7 @@
       </section>
     </aside>
     <hgroup>
-      <h2>sloppy change sloppy.yml, nodejs</h2>
+      <h2>sloppy change sloppy.yml, Node.js</h2>
     </hgroup>
     <article>
       <textarea class="prettyprint" data-lang="bash">
@@ -948,7 +950,7 @@
           <li>Linter and unit test setup</li>
           <li>Updating npm/yarn lock files inside container</li>
           <li>CI pipeline</li>
-          <li>alpine issues</li>
+          <li>Alpine issues</li>
         </ul>
       </h3>
     </hgroup>
@@ -970,7 +972,7 @@
         <li><span>email</span><a href="mailto:joern.zaefferer@gmail.com">joern.zaefferer@gmail.com</a></li>
         <li><span>slides</span><a href="http://jzaefferer.github.io/slides-docker-for-js-devs/">jzaefferer.github.io/slides-docker-for-js-devs/</a></li>
         <li><span>webapp</span><a href="https://github.com/jzaefferer/docker-for-js-devs">github.com/jzaefferer/docker-for-js-devs</a></li>
-        <li><span>nodejs</span><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">github.com/jzaefferer/docker-for-nodejs-devs</a></li>
+        <li><span>Node.js</span><a href="https://github.com/jzaefferer/docker-for-nodejs-devs">github.com/jzaefferer/docker-for-nodejs-devs</a></li>
       </ul>
     </article>
   </slide>
