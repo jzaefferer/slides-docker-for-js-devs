@@ -19,6 +19,7 @@
         [start screenflow! record everything (except computer audio)]<br/>
         [Cmd+F to go fullscreen on viewer tab; not native thingy!]<br/>
         [turn off key repeat!]
+        [shut down all the apps!!1]
       </section>
     </aside>
     <hgroup>
@@ -54,7 +55,7 @@
       <section>
         Hands up if you've worked with Docker!<br>
         [do an estimate] Alright.<br>
-        Either way, I'm not going to teach you how to use Docker. I am going to show Docker solutions for JavaScript specific issues. They should be understandable even if you don't yet know Docker.
+        Even without knowing Docker, you should be able to follow along all the examples.
       </section>
     </aside>
     <hgroup>
@@ -80,7 +81,7 @@
       <h3>
         <ul>
           <li>Works on Windows, OSX and Linux</li>
-          <li>Manage different binaries like node/npm, databases</li>
+          <li>Sandbox for binaries like node/npm, databases</li>
           <li>Better CI: Small, encapsulated applications</li>
           <li>Deploy to cloud, with less vendor lock-in</li>
         </ul>
@@ -104,9 +105,9 @@
         All on GitHub:
         <ul>
           <li>github.com/jzaefferer/docker-for-js-devs<br/>
-            web app based on create-react-app</li>
+            <em>web app based on create-react-app</em></li>
           <li>github.com/jzaefferer/docker-for-nodejs-devs<br/>
-            rest backend, Node.js and express, with CouchDB</a></li>
+            <em>rest backend, Node.js and express, with CouchDB</em></a></li>
         </ul>
       </h3>
     </hgroup>
@@ -159,10 +160,9 @@
     <aside class="note">
       <section>
         6 instructions for conquering the world!<br/>
-        FROM is our starting point, here a light weight build of node 8 based on alpine.<br/>
+        FROM is our starting point, here a light weight build of node 8 based on alpine, a very small linux distribution.<br/>
         WORKDIR tells Docker where to copy files. Can be pretty much any directory<br/>
-        The first COPY only copies files we need to install dependencies with npm<br/>
-        The RUN then does just that<br/>
+        The first COPY only copies files we need to install dependencies with npm, the RUN then does just that<br/>
         Afterwards another COPY copies all files, from the host, to the docker image. This way we can use Docker's cache for dependencies as long as package.json doesn't change.<br/>
         Finally CMD is the command to run, here starting a server with file watcher
       </section>

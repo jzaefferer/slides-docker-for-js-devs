@@ -1407,3 +1407,6 @@ slide.pattern-5 {
     font-family: monospace !important;
   }
 }
+em {
+  font-style: italic;
+}
