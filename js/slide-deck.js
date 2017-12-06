@@ -203,6 +203,11 @@ SlideDeck.prototype.onBodyKeyDown_ = function(e) {
     this.controller.sendMsg({keyCode: e.keyCode});
   }
 
+  // ignore events inside the main window if they don't come from the popup
+  if (this.controller && this.controller.popup && !e.fromPopup) {
+    return;
+  }
+
   switch (e.keyCode) {
     case 13: // Enter
       if (document.body.classList.contains('overview')) {

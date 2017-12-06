@@ -86,6 +86,7 @@ SlideController.prototype.onMessage_ = function(e) {
     var evt = document.createEvent('Event');
     evt.initEvent('keydown', true, true);
     evt.keyCode = data.keyCode;
+    evt.fromPopup = true;
     document.dispatchEvent(evt);
   }
 };
