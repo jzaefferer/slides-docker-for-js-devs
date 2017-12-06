@@ -64,12 +64,21 @@
     </hgroup>
   </slide>
 
+  <slide class="full">
+      <aside class="note">
+        <section>
+            Before we get to the code examples, a bit of theory<br/>
+          To give you a very rough idea how Docker works, here's an illustration showing the difference between VMs and Docker<br/>
+          The columns on the right are shorter, here indicating less resources needed for the same result<br/>
+          From a developers point of view, we get similar benefits as from VMs, but with less system requirements
+        </section>
+      </aside>
+      <img src="images/vm-vs-container.png">
+    </slide>
   <slide class="segue big dark pattern-1">
     <aside class="note">
       <section>
-        Before we get to the code examples, a bit of theory<br/>
-        If you currently have a setup that works okay, why would you bother with Docker?<br/>
-        Here's a few arguments that might work for you.<br/>
+        Let's also look at some more practical arguments for using Docker<br/>
         node/npm on Windows can have path issues or incompatible binaries, using Docker avoids these<br/>
         Managing node/npm versions per project is annoying, Docker does that well<br/>
         When doing continous integration, Docker helps by producing encapsulated applications<br/>
